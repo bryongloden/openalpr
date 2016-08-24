@@ -17,37 +17,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OPENALPR_REGEXRULE_H
-#define	OPENALPR_REGEXRULE_H
+#ifndef OPENALPR_OCR_H
+#define	OPENALPR_OCR_H
 
-#include <iostream>
-#include <string>
-#include <cstring>
-#include <vector>
-#include "support/re2.h"
-#include "support/utf8.h"
-#include "support/tinythread.h"
+#include "postprocess/postprocess.h"
+#include "pipeline_data.h"
 
 namespace alpr
 {
-  class RegexRule
+  struct OcrChar
   {
-    public:
-      RegexRule(std::string region, std::string pattern, std::string letters_regex, std::string numbers_regex);
-      virtual ~RegexRule();
+    std::string letter;
+    int char_index;
+    float confidence;
+  };
+  
+  class OCR {
+  public:
+    OCR(Config* config);
+    virtual ~OCR();
 
-      bool match(std::string text);
+    void performOCR(PipelineData* pipeline_data);
 
-    private:
-      bool valid;
-      
-      int numchars;
-      re2::RE2* re2_regex;
-      std::string original;
-      std::string regex;
-      std::string region;
+    PostProcess postProcessor;
+
+  protected:
+    virtual std::vector<OcrChar> recognize_line(int line_index, PipelineData* pipeline_data)=0;
+    virtual void segment(PipelineData* pipeline_data)=0;
+    
+    Config* config;
+
   };
 }
 
-#endif	/* OPENALPR_REGEXRULE_H */
+#endif	/* OPENALPR_OCR_H */
 

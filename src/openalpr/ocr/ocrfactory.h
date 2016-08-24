@@ -17,45 +17,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OPENALPR_OCR_H
-#define OPENALPR_OCR_H
+#ifndef OPENALPR_OCRFACTORY_H
+#define	OPENALPR_OCRFACTORY_H
 
-#include <iostream>
-#include <stdio.h>
-
-#include "utility.h"
-#include "postprocess/postprocess.h"
 #include "config.h"
-#include "pipeline_data.h"
-
-#include "constants.h"
-#include "opencv2/imgproc/imgproc.hpp"
-#include "support/filesystem.h"
-#include "support/version.h"
-
-#include "tesseract/baseapi.h"
+#include "ocr.h"
 
 namespace alpr
 {
 
-  class OCR
-  {
-
-    public:
-      OCR(Config* config);
-      virtual ~OCR();
-
-      void performOCR(PipelineData* pipeline_data);
-
-      PostProcess postProcessor;
-
-    private:
-      Config* config;
-
-      tesseract::TessBaseAPI tesseract;
-
-  };
+  OCR* createOcr(Config* config);
 
 }
+#endif	/* OPENALPR_DETECTORFACTORY_H */
 
-#endif // OPENALPR_OCR_H

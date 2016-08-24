@@ -15,14 +15,16 @@ set(lpr_source_files
  detection/detectormask.cpp
  licenseplatecandidate.cpp
  utility.cpp
- ocr.cpp
+ ocr/tesseract_ocr.cpp
+ ocr/ocr.cpp
+ ocr/ocrfactory.cpp
  postprocess/postprocess.cpp
  postprocess/regexrule.cpp
  binarize_wolf.cpp
- segmentation/charactersegmenter.cpp
- segmentation/histogram.cpp
- segmentation/histogramvertical.cpp
- segmentation/histogramhorizontal.cpp
+ ocr/segmentation/charactersegmenter.cpp
+ ocr/segmentation/histogram.cpp
+ ocr/segmentation/histogramvertical.cpp
+ ocr/segmentation/histogramhorizontal.cpp
  edges/edgefinder.cpp
  edges/platecorners.cpp
  edges/platelines.cpp

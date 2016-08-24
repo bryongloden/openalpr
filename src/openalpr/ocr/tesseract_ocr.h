@@ -17,50 +17,45 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OPENALPR_LICENSEPLATECANDIDATE_H
-#define OPENALPR_LICENSEPLATECANDIDATE_H
+#ifndef OPENALPR_TESSERACTOCR_H
+#define OPENALPR_TESSERACTOCR_H
 
 #include <iostream>
 #include <stdio.h>
-#include <vector>
-
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/core/core.hpp"
 
 #include "utility.h"
-#include "constants.h"
-#include "edges/platelines.h"
-#include "transformation.h"
-#include "textdetection/characteranalysis.h"
-#include "edges/platecorners.h"
 #include "config.h"
 #include "pipeline_data.h"
+
+#include "constants.h"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "support/filesystem.h"
+#include "support/version.h"
+
+#include "ocr.h"
+#include "tesseract/baseapi.h"
 
 namespace alpr
 {
 
-  class LicensePlateCandidate
+  class TesseractOcr : public OCR 
   {
 
     public:
-      LicensePlateCandidate(PipelineData* pipeline_data);
-      virtual ~LicensePlateCandidate();
+      TesseractOcr(Config* config);
+      virtual ~TesseractOcr();
 
-
-      void recognize();
 
 
     private:
-      PipelineData* pipeline_data;
-      Config* config;
 
-
-      cv::Mat filterByCharacterHue(std::vector<std::vector<cv::Point> > charRegionContours);
-      std::vector<cv::Point> findPlateCorners(cv::Mat inputImage, PlateLines plateLines, CharacterAnalysis textAnalysis);	// top-left, top-right, bottom-right, bottom-left
-
-      cv::Size getCropSize(std::vector<cv::Point2f> areaCorners);
+      std::vector<OcrChar> recognize_line(int line_index, PipelineData* pipeline_data);
+      void segment(PipelineData* pipeline_data);
+    
+      tesseract::TessBaseAPI tesseract;
 
   };
-  
+
 }
-#endif // OPENALPR_LICENSEPLATECANDIDATE_H
+
+#endif // OPENALPR_TESSERACTOCR_H
